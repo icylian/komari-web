@@ -87,7 +87,7 @@ const Node = ({ basic, live, online }: NodeProps) => {
               <Flex direction="column">
                 <Text
                   weight="bold"
-                  size={isMobile ? "2" : "4"}
+                  size={isMobile ? "1" : "2"}
                   truncate
                   style={{ maxWidth: "200px" }}
                 >
@@ -158,7 +158,7 @@ const Node = ({ basic, live, online }: NodeProps) => {
               className="md:block hidden"
               size="1"
               color="gray"
-              style={{ marginTop: "-4px" }}
+              style={{ marginTop: "-4px", textAlign: "right" }}
             >
               ({formatBytes(liveData.ram.used)} / {formatBytes(basic.mem_total)}
               )
@@ -170,7 +170,7 @@ const Node = ({ basic, live, online }: NodeProps) => {
               size="1"
               className="md:block hidden"
               color="gray"
-              style={{ marginTop: "-4px" }}
+              style={{ marginTop: "-4px", textAlign: "right" }}
             >
               ({formatBytes(liveData.disk.used)} /{" "}
               {formatBytes(basic.disk_total)})
