@@ -5,6 +5,7 @@ import {
   Badge,
   Separator,
   IconButton,
+  Grid,
 } from "@radix-ui/themes";
 import type { LiveData, Record } from "../types/LiveData";
 import UsageBar from "./UsageBar";
@@ -80,6 +81,8 @@ const Node = ({ basic, live, online }: NodeProps) => {
       className="node-card hover:cursor-pointer hover:shadow-lg hover:bg-accent-2"
     >
       <Flex direction="column" gap="2">
+
+        {/* Card Title */}
         <Flex justify="between" align="center" my={isMobile ? "-1" : "0"}>
           <Flex justify="start" align="center">
             <Flag flag={basic.region} />
@@ -134,99 +137,143 @@ const Node = ({ basic, live, online }: NodeProps) => {
 
         <Separator size="4" className="-mt-1" />
 
-        <Flex direction="column" gap="2">
-          <Flex justify="between" hidden={isMobile}>
-            <Text size="2" color="gray">
-              OS
-            </Text>
-            <Flex align="center">
-              <img
-                src={getOSImage(basic.os)}
-                alt={basic.os}
-                className="w-5 h-5 mr-2"
-              />
-              <Text size="2">{getOSName(basic.os)} / {basic.arch}</Text>
+        {/* Card Contents */}
+        <Link to={`/instance/${basic.uuid}`}>
+          <Flex direction="column" gap="2">
+
+            {/* OS */}
+            <Flex justify="between" hidden={isMobile}>
+              <Text size="2" color="gray">
+                OS
+              </Text>
+              <Flex align="center">
+                <img
+                  src={getOSImage(basic.os)}
+                  alt={basic.os}
+                  className="w-5 h-5 mr-2"
+                />
+                <Text size="2">{getOSName(basic.os)} / {basic.arch}</Text>
+              </Flex>
+            </Flex>
+
+            <Flex className="md:flex-col flex-row md:gap-1 gap-4">
+              {/* CPU Usage */}
+              <UsageBar label={t("nodeCard.cpu")} value={liveData.cpu.usage} />
+
+              {/* Memory Usage */}
+              <UsageBar label={t("nodeCard.ram")} value={memoryUsagePercent} />
+              <Text
+                className="md:block hidden"
+                size="1"
+                color="gray"
+                style={{ marginTop: "-4px", textAlign: "right" }}
+              >
+                ({formatBytes(liveData.ram.used)} / {formatBytes(basic.mem_total)}
+                )
+              </Text>
+
+              {/* Disk Usage */}
+              <UsageBar label={t("nodeCard.disk")} value={diskUsagePercent} />
+              <Text
+                size="1"
+                className="md:block hidden"
+                color="gray"
+                style={{ marginTop: "-4px", textAlign: "right" }}
+              >
+                ({formatBytes(liveData.disk.used)} /{" "}
+                {formatBytes(basic.disk_total)})
+              </Text>
+            </Flex>
+
+            <Flex justify="between" hidden={isMobile}>
+              <Text size="2" color="gray">
+                {t("nodeCard.networkSpeed")}
+              </Text>
+              <Text size="2">
+                ↑ {uploadSpeed}/s ↓ {downloadSpeed}/s
+              </Text>
+            </Flex>
+
+            <Flex justify="between" hidden={isMobile}>
+              <Text size="2" color="gray">
+                {t("nodeCard.totalTraffic")}
+              </Text>
+              <Text size="2">
+                ↑ {totalUpload} ↓ {totalDownload}
+              </Text>
+            </Flex>
+
+            {/* Network for Mobile OLD*/}
+            {/* <Flex justify="between" gap="2" hidden={!isMobile}>
+              <Text size="2">{t("nodeCard.networkSpeed")}</Text>
+              <Text size="2">
+                ↑ {uploadSpeed}/s ↓ {downloadSpeed}/s
+              </Text>
+            </Flex>
+            <Flex justify="between" gap="2" hidden={!isMobile}>
+              <Text size="2">{t("nodeCard.totalTraffic")}</Text>
+              <Text size="2">
+                ↑ {totalUpload} ↓ {totalDownload}
+              </Text>
+            </Flex> */}
+
+            {/* Network for Mobile */}
+            <Grid columns="2" rows="1" gap="4" hidden={!isMobile}>
+              <Flex justify="start" gap="4">
+                <Grid columns="1" rows="1" gap="0" align="center">
+                  <Text size="2" color="gray">{t("nodeCard.networkSpeed")}</Text>
+                </Grid>
+                <Grid columns="1" rows="2" gap="0">
+                  <Text size="2">
+                    ↑ {uploadSpeed}/s
+                  </Text>
+                  <Text size="2">
+                    ↓ {downloadSpeed}/s
+                  </Text>
+                </Grid>
+              </Flex>
+              <Flex justify="start" gap="4" hidden={!isMobile}>
+                <Grid columns="1" rows="1" gap="0" align="center">
+                  <Text size="2" color="gray">{t("nodeCard.totalTraffic")}</Text>
+                </Grid>
+                <Grid columns="1" rows="2" gap="0">
+                  <Text size="2">
+                    ↑ {totalUpload}
+                  </Text>
+                  <Text size="2">
+                    ↓ {totalDownload}
+                  </Text>
+                </Grid>
+              </Flex>
+            </Grid>
+
+            <Flex justify="between" hidden={isMobile}>
+              <Text size="2" color="gray">
+                {t("nodeCard.uptime")}
+              </Text>
+              {online ? (
+                <Text size="2">{formatUptime(liveData.uptime, t)}</Text>
+              ) : (
+                <Text size="2" color="gray">
+                  -
+                </Text>
+              )}
             </Flex>
           </Flex>
-          <Flex className="md:flex-col flex-row md:gap-1 gap-4">
-            {/* CPU Usage */}
-            <UsageBar label={t("nodeCard.cpu")} value={liveData.cpu.usage} />
+        </Link>
 
-            {/* Memory Usage */}
-            <UsageBar label={t("nodeCard.ram")} value={memoryUsagePercent} />
-            <Text
-              className="md:block hidden"
-              size="1"
-              color="gray"
-              style={{ marginTop: "-4px", textAlign: "right" }}
-            >
-              ({formatBytes(liveData.ram.used)} / {formatBytes(basic.mem_total)}
-              )
-            </Text>
-
-            {/* Disk Usage */}
-            <UsageBar label={t("nodeCard.disk")} value={diskUsagePercent} />
-            <Text
-              size="1"
-              className="md:block hidden"
-              color="gray"
-              style={{ marginTop: "-4px", textAlign: "right" }}
-            >
-              ({formatBytes(liveData.disk.used)} /{" "}
-              {formatBytes(basic.disk_total)})
-            </Text>
-          </Flex>
-
-          <Flex justify="between" hidden={isMobile}>
-            <Text size="2" color="gray">
-              {t("nodeCard.networkSpeed")}
-            </Text>
-            <Text size="2">
-              ↑ {uploadSpeed}/s ↓ {downloadSpeed}/s
-            </Text>
-          </Flex>
-
-          <Flex justify="between" hidden={isMobile}>
-            <Text size="2" color="gray">
-              {t("nodeCard.totalTraffic")}
-            </Text>
-            <Text size="2">
-              ↑ {totalUpload} ↓ {totalDownload}
-            </Text>
-          </Flex>
-          <Flex justify="between" gap="2" hidden={!isMobile}>
-            <Text size="2">{t("nodeCard.networkSpeed")}</Text>
-            <Text size="2">
-              ↑ {uploadSpeed}/s ↓ {downloadSpeed}/s
-            </Text>
-          </Flex>
-          <Flex justify="between" gap="2" hidden={!isMobile}>
-            <Text size="2">{t("nodeCard.totalTraffic")}</Text>
-            <Text size="2">
-              ↑ {totalUpload} ↓ {totalDownload}
-            </Text>
-          </Flex>
-          <Flex justify="between" hidden={isMobile}>
-            <Text size="2" color="gray">
-              {t("nodeCard.uptime")}
-            </Text>
-            {online ? (
-              <Text size="2">{formatUptime(liveData.uptime, t)}</Text>
-            ) : (
-              <Text size="2" color="gray">
-                -
-              </Text>
-            )}
-          </Flex>
+        {/* Price Tags for Mobile */}
+        <Flex justify="center" hidden={!isMobile}>
+          <PriceTags
+            hidden={!isMobile}
+            price={basic.price}
+            billing_cycle={basic.billing_cycle}
+            expired_at={basic.expired_at}
+            currency={basic.currency}
+            tags={basic.tags || ""}
+          />
         </Flex>
-        <PriceTags
-          hidden={!isMobile}
-          price={basic.price}
-          billing_cycle={basic.billing_cycle}
-          expired_at={basic.expired_at}
-          currency={basic.currency}
-          tags={basic.tags || ""}
-        />
+
       </Flex>
     </Card>
   );
