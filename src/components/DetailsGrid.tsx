@@ -43,7 +43,7 @@ export const DetailsGrid = ({ uuid, gap, align }: DetailsGridProps) => {
           />
           <UpDownStack
             up={t("nodeCard.virtualization")}
-            align={align === "center" ? "start" : "end"}
+            align={"start"}
             down={node?.virtualization ?? "Unknown"}
           />
         </label>
@@ -53,7 +53,7 @@ export const DetailsGrid = ({ uuid, gap, align }: DetailsGridProps) => {
         <label className={`flex flex-wrap gap-2 gap-x-8 flex-[0_0_calc(50%-0.5rem)] ${align === "center" ? "start" : ""}`}>
           <UpDownStack
             up={t("nodeCard.os")}
-            align={align === "center" ? "start" : "end"}
+            align={"start"}
             down={node?.os ?? "Unknown"}
           />
         </label>
@@ -62,7 +62,7 @@ export const DetailsGrid = ({ uuid, gap, align }: DetailsGridProps) => {
         <UpDownStack
           className="md:w-64 w-full flex-[0_0_calc(50%-0.5rem)]"
           up={t("nodeCard.networkSpeed")}
-          align={align === "center" ? "start" : "end"}
+          // align={align === "center" ? "start" : "end"}
           down={` ↑ ${formatBytes(
             live_data?.data.data[uuid ?? ""]?.network.up || 0
           )}/s
@@ -71,9 +71,10 @@ export const DetailsGrid = ({ uuid, gap, align }: DetailsGridProps) => {
             live_data?.data.data[uuid ?? ""]?.network.down || 0
           )}/s`}
         />
+        <label className={`flex flex-wrap gap-2 gap-x-8 flex-[0_0_calc(50%-0.5rem)] ${align === "center" ? "start" : ""}`}>
         <UpDownStack
           up={t("nodeCard.totalTraffic")}
-          align={align === "center" ? "start" : "end"}
+          align={"start"}
           className="flex-[0_0_calc(50%-0.5rem)]"
           down={`↑
           ${formatBytes(
@@ -84,6 +85,7 @@ export const DetailsGrid = ({ uuid, gap, align }: DetailsGridProps) => {
             live_data?.data.data[uuid ?? ""]?.network.totalDown || 0
           )}`}
         />
+        </label>
 
         {/* line4 */}
         <UpDownStack
@@ -98,7 +100,7 @@ export const DetailsGrid = ({ uuid, gap, align }: DetailsGridProps) => {
           />
           <UpDownStack
             up={t("nodeCard.swap")}
-            align={align === "center" ? "start" : "end"}
+            align={"start"}
             down={formatBytes(node?.swap_total || 0)}
           />
         </label>
@@ -117,7 +119,7 @@ export const DetailsGrid = ({ uuid, gap, align }: DetailsGridProps) => {
           <UpDownStack
             up={t("nodeCard.last_updated")}
             // className="flex-[0_0_calc(50%-0.5rem)]"
-            align={align === "center" ? "start" : "end"}
+            align={"start"}
             down={node?.updated_at
               ? new Date(
                 live_data?.data.data[uuid ?? ""]?.updated_at ||

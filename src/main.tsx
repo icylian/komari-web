@@ -54,6 +54,7 @@ const App = () => {
           accentColor={color}
           scaling="110%"
           className="theme-root"
+          panelBackground="translucent"
           style={{
             backgroundColor: "transparent",
             minHeight: "100vh",
