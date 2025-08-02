@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { UpDownStack } from "./UpDownStack";
+import { NetworkUpDownStack } from "./NetworkUpDownStack";
 import { useNodeList } from "@/contexts/NodeListContext";
 import { useLiveData } from "@/contexts/LiveDataContext";
 import { formatBytes, formatUptime } from "./Node";
@@ -59,31 +60,35 @@ export const DetailsGrid = ({ uuid, gap, align }: DetailsGridProps) => {
         </label>
 
         {/* line3 */}
-        <UpDownStack
+        <NetworkUpDownStack
           className="md:w-64 w-full flex-[0_0_calc(50%-0.5rem)]"
           up={t("nodeCard.networkSpeed")}
           // align={align === "center" ? "start" : "end"}
-          down={` ↑ ${formatBytes(
+          down1={` ↑ ${formatBytes(
             live_data?.data.data[uuid ?? ""]?.network.up || 0
           )}/s
-          ↓
+          `}
+          down2={`↓
           ${formatBytes(
             live_data?.data.data[uuid ?? ""]?.network.down || 0
-          )}/s`}
+          )}/s
+          `}
         />
         <label className={`flex flex-wrap gap-2 gap-x-8 flex-[0_0_calc(50%-0.5rem)] ${align === "center" ? "start" : ""}`}>
-        <UpDownStack
+        <NetworkUpDownStack
           up={t("nodeCard.totalTraffic")}
           align={"start"}
           className="flex-[0_0_calc(50%-0.5rem)]"
-          down={`↑
+          down1={`↑
           ${formatBytes(
             live_data?.data.data[uuid ?? ""]?.network.totalUp || 0
           )}
-          ↓
+          `}
+          down2={`↓
           ${formatBytes(
             live_data?.data.data[uuid ?? ""]?.network.totalDown || 0
-          )}`}
+          )}
+          `}
         />
         </label>
 

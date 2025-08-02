@@ -274,7 +274,7 @@ const PingChart = ({ uuid }: { uuid: string }) => {
   }, [tasks, hiddenLines]);
 
   return (
-    <Flex direction="column" align="center" gap="4" className="w-full max-w-screen">
+    <Flex direction="column" align="center" gap="4" className="pl-4 pr-4 w-full max-w-screen">
       <div className="overflow-x-auto w-full flex items-center justify-center">
         <SegmentedControl.Root
           value={view}
