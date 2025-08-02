@@ -7,7 +7,6 @@ import {
   TableHeader,
   TableRow,
 } from "./ui/table";
-import { Grid } from "@radix-ui/themes";
 import { Badge, Flex, IconButton } from "@radix-ui/themes";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
@@ -428,10 +427,14 @@ interface ExpandedNodeDetailsProps {
 
 const ExpandedNodeDetails: React.FC<ExpandedNodeDetailsProps> = ({ node }) => {
   return (
-    <Grid columns="2" rows="1" gap="4">
-      <DetailsGrid gap="0" uuid={node.uuid} />
-      <MiniPingChart hours={24} uuid={node.uuid} />
-    </Grid>
+    <Flex gap="4">
+      <Flex width="50%">
+        <DetailsGrid gap="0" uuid={node.uuid} />
+      </Flex>
+      <Flex width="100%">
+        <MiniPingChart hours={24} uuid={node.uuid} />
+      </Flex>
+    </Flex>
   );
 };
 
