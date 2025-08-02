@@ -11,15 +11,17 @@ import {
 import { useTranslation } from "react-i18next";
 import { TablerSettings } from "./Icones/Tabler";
 import { AccountProvider, useAccount } from "@/contexts/AccountContext";
+import { usePublicInfo } from "@/contexts/PublicInfoContext";
 
 type LoginDialogProps = {
   trigger?: React.ReactNode | string;
   autoOpen?: boolean;
   showSettings?: boolean;
+  info?: string | React.ReactNode;
   onLoginSuccess?: () => void;
 };
 
-const LoginDialog = ({ trigger, autoOpen = false, showSettings = true, onLoginSuccess }: LoginDialogProps) => {
+const LoginDialog = ({ trigger, autoOpen = false, showSettings = true, info, onLoginSuccess }: LoginDialogProps) => {
   const InnerLayout = () => {
     const { account, loading, error, refresh } = useAccount();
     const [t] = useTranslation();
@@ -30,6 +32,7 @@ const LoginDialog = ({ trigger, autoOpen = false, showSettings = true, onLoginSu
     const [isLoading, setIsLoading] = React.useState(false);
     const [require2FA, setRequire2FA] = React.useState(false);
     const [open, setOpen] = React.useState(autoOpen || false);
+    const {publicInfo} = usePublicInfo();
     // Validate inputs
     const isFormValid = username.trim() !== "" && password.trim() !== "";
     console.log(autoOpen, open);
@@ -102,7 +105,7 @@ const LoginDialog = ({ trigger, autoOpen = false, showSettings = true, onLoginSu
     }
     if (account.logged_in) {
       if (!showSettings) {
-        return null; 
+        return null;
       }
       return (
         <a href="/admin" target="_blank">
@@ -120,7 +123,15 @@ const LoginDialog = ({ trigger, autoOpen = false, showSettings = true, onLoginSu
         <Dialog.Content maxWidth="450px">
           <Dialog.Title>{t("login.title")}</Dialog.Title>
           <Dialog.Description size="2" mb="4">
-            {t("login.desc")}
+            <div className="flex justify-center flex-col gap-2">
+              <label>{t("login.desc")}</label>
+              {info && (
+                <label>
+                  {info}
+                </label>
+              )}
+            </div>
+
           </Dialog.Description>
           <Box
             onSubmit={(e) => {
@@ -191,7 +202,17 @@ const LoginDialog = ({ trigger, autoOpen = false, showSettings = true, onLoginSu
                 disabled={isLoading}
                 type="button" // Prevent form submission
               >
-                {t("login.login_with_github")}
+                {t(
+                  "login.login_with",
+                  {
+                    provider:
+                      publicInfo?.oauth_provider === "generic"
+                        ? "OAuth"
+                        : publicInfo?.oauth_provider
+                          ? publicInfo.oauth_provider.charAt(0).toUpperCase() + publicInfo.oauth_provider.slice(1)
+                          : ""
+                  }
+                )}
               </Button>
             </Flex>
           </Box>

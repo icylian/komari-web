@@ -6,8 +6,10 @@ import { IconButton } from "@radix-ui/themes";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { Link } from "react-router-dom";
 import { usePublicInfo } from "@/contexts/PublicInfoContext";
+import { useTranslation } from "react-i18next";
 const NavBar = () => {
-  const {publicInfo} = usePublicInfo();
+  const { publicInfo } = usePublicInfo();
+  const { t } = useTranslation();
   return (
     <nav className="nav-bar flex rounded-b-lg items-center gap-3 max-h-16 justify-end min-w-full p-2 px-4">
       <div className="mr-auto flex">
@@ -41,7 +43,12 @@ const NavBar = () => {
       <ThemeSwitch />
       <ColorSwitch />
       <LanguageSwitch />
-      <LoginDialog />
+      {publicInfo?.private_site ? (<LoginDialog
+        autoOpen={publicInfo?.private_site}
+        info={t('common.private_site')}
+        onLoginSuccess={() => { window.location.reload(); }}
+      />) : (<LoginDialog />)}
+
     </nav>
   );
 };
