@@ -131,7 +131,7 @@ const LoadChart = ({ data = [] }: LoadChartProps) => {
   const colors = ["#F38181", "#FCE38A", "#EAFFD0", "#95E1D3"];
   const primaryColor = colors[0];
   const secondaryColor = colors[1];
-  const cn = "max-w-72 min-w-72 flex flex-col w-full h-full gap-4";
+  const cn = "flex flex-wrap w-full h-full gap-4 rounded-lg shadow-sm";
   const chartMargin = {
     top: 0,
     right: 16,
@@ -206,6 +206,8 @@ const LoadChart = ({ data = [] }: LoadChartProps) => {
 
   return (
     <Flex direction="column" align="center" gap="4" className="w-full max-w-screen">
+
+      {/* selector */}
       <div className="overflow-x-auto w-full flex items-center justify-center">
         <SegmentedControl.Root value={hoursView} onValueChange={setHoursView}>
           {avaliableView.map((view) => (
@@ -219,6 +221,7 @@ const LoadChart = ({ data = [] }: LoadChartProps) => {
           ))}
         </SegmentedControl.Root>
       </div>
+
       {/* 新增 loading/error 提示 */}
       {loading && (
         <div style={{ textAlign: "center", width: "100%" }}>
@@ -230,8 +233,10 @@ const LoadChart = ({ data = [] }: LoadChartProps) => {
           {error}
         </div>
       )}
+
+      {/* 图表容器 */}
       <div
-        className="gap-2 grid w-full justify-items-center mx-auto max-w-[900px]"
+        className="pl-4 pr-4 gap-4 grid w-full justify-items-center mx-auto max-w-[1200px]"
         style={{
           gridTemplateColumns: "repeat(auto-fit, minmax(288px, 1fr))",
         }}
