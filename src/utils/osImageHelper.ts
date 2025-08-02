@@ -102,6 +102,16 @@ const osConfigs: OSConfig[] = [
     keywords: ['manjaro']
   },
   {
+    name: 'Synology DSM',
+    image: '/assets/os-synology.ico',
+    keywords: ['synology', 'dsm', 'synology dsm']
+  },
+  {
+    name: 'Proxmox VE',
+    image: '/assets/os-proxmox.ico',
+    keywords: ['proxmox', 'proxmox ve']
+  },
+  {
     name: 'macOS',
     image: '/assets/os-macos.svg',
     keywords: ['macos']
