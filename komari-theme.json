@@ -2,7 +2,7 @@
     "name": "Komari Personal Preview",
     "short": "KomariPersonalPreview", 
     "description": "Preview theme for Komari Monitor",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "author": "haku",
     "url": "https://github.com/komari-monitor/komari-web",
     "preview": "preview.png"
